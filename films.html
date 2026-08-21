@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO — Filmworks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100E0B;
+    --bg-alt:#181410;
+    --paper:#ECE4D3;
+    --paper-dim:#B9AF9C;
+    --brass:#C9A227;
+    --brass-dim:#8C7420;
+    --line:rgba(236,228,211,0.14);
+    --line-strong:rgba(236,228,211,0.28);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,162,39,0.05), transparent 60%),
+      var(--bg);
+    color:var(--paper);
+    font-family:'Instrument Sans', sans-serif;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--brass);color:var(--bg);}
+  a{color:inherit;text-decoration:none;}
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 40px;
+    z-index:50;
+    mix-blend-mode:difference;
+  }
+  .nav .mark{font-family:'Fraunces',serif;font-weight:500;font-size:15px;letter-spacing:0.02em;cursor:pointer;}
+  .nav .tabs{display:flex;gap:28px;}
+  .nav .tabs a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--paper-dim);
+    position:relative;
+    padding-bottom:3px;
+    transition:color .2s ease;
+  }
+  .nav .tabs a::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:var(--brass);
+    transform:scaleX(0);transform-origin:right;
+    transition:transform .25s ease;
+  }
+  .nav .tabs a:hover{color:var(--paper);}
+  .nav .tabs a:hover::after{transform:scaleX(1);transform-origin:left;}
+  .nav .tabs a.current{color:var(--paper);}
+  .nav .tabs a.current::after{transform:scaleX(1);}
+  @media (max-width:640px){
+    .nav .tabs{gap:16px;}
+    .nav .tabs a{font-size:9px;}
+  }
+
+  /* ---------- PAGE HEAD ---------- */
+  .page-head{
+    max-width:960px;margin:0 auto;
+    padding:150px 40px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .page-head .eyebrow{
+    font-size:11px;letter-spacing:0.28em;color:var(--brass);
+  }
+
+  /* ---------- FILM ENTRY ---------- */
+  .film-entry{
+    max-width:960px;margin:0 auto;
+    padding:40px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .film-entry:last-child{border-bottom:none;padding-bottom:100px;}
+
+  .film-head{margin-bottom:32px;}
+  .film-title{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:500;
+    text-transform:uppercase;
+    font-size:clamp(16px,1.6vw,20px);
+    letter-spacing:0.12em;
+  }
+  .film-date{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--brass);
+    margin-top:10px;
+  }
+  .film-credits{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:13px;line-height:1.6;
+    color:var(--paper-dim);
+    margin-top:10px;
+  }
+  .watch-link{
+    display:inline-block;
+    margin-top:16px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--brass);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .watch-link:hover{border-color:var(--brass);color:var(--paper);}
+
+  .stills{
+    position:relative;
+    width:100%;
+    aspect-ratio:3/2;
+    background:#0A0908;
+    border:1px solid #050403;
+    overflow:hidden;
+    cursor:pointer;
+  }
+  .still{
+    position:absolute;inset:0;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    opacity:0;
+    transition:opacity .5s ease;
+  }
+  .still.active{opacity:1;}
+
+  .still-nav{
+    position:absolute;top:50%;transform:translateY(-50%);
+    width:42px;height:42px;border-radius:50%;
+    background:rgba(16,14,11,0.55);
+    border:1px solid rgba(236,228,211,0.4);
+    color:var(--paper);
+    font-size:20px;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    cursor:pointer;
+    z-index:2;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .still-nav:hover{background:rgba(16,14,11,0.85);border-color:var(--brass);}
+  .still-nav.prev{left:16px;}
+  .still-nav.next{right:16px;}
+
+  .still-counter{
+    position:absolute;bottom:14px;right:16px;
+    font-size:10px;letter-spacing:0.1em;
+    color:rgba(236,228,211,0.9);
+    background:rgba(16,14,11,0.5);
+    padding:5px 9px;
+    border-radius:2px;
+    z-index:2;
+  }
+
+  @media (max-width:640px){
+    .page-head{padding:130px 24px 40px;}
+    .film-entry{padding:28px 24px;}
+    .still-nav{width:34px;height:34px;font-size:16px;}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="mark" href="wireframe.html">STUDIO</a>
+    <div class="tabs">
+      <a href="wireframe.html">Home</a>
+      <a href="films.html" class="current">Filmworks</a>
+      <a href="wireframe.html#painting">Painting</a>
+      <a href="#" data-toast-msg="Writing — coming soon">Writing</a>
+      <a href="#" data-toast-msg="About — coming soon">About</a>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="eyebrow mono">Filmworks</div>
+  </header>
+
+  <main>
+    <section class="film-entry" id="the-envelope">
+      <div class="film-head">
+        <h2 class="film-title">The Envelope</h2>
+        <div class="film-date">2025</div>
+      </div>
+      <div class="stills" data-stills>
+        <div class="still active" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.50.49 PM.png')"></div>
+        <div class="still" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.51.49 PM.png')"></div>
+        <div class="still" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.52.16 PM.png')"></div>
+        <div class="still" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.53.07 PM.png')"></div>
+        <div class="still" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.53.29 PM.png')"></div>
+        <div class="still" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.54.30 PM.png')"></div>
+        <button class="still-nav prev" aria-label="Previous still">&lsaquo;</button>
+        <button class="still-nav next" aria-label="Next still">&rsaquo;</button>
+        <div class="still-counter mono"><span class="current">01</span> / <span class="total">06</span></div>
+      </div>
+      <a class="watch-link" href="https://youtu.be/1CkFkmz2Sj4?si=VGTIRjWTKERJUNBB" target="_blank" rel="noopener">Watch here →</a>
+    </section>
+
+    <section class="film-entry" id="my-love-is-orange">
+      <div class="film-head">
+        <h2 class="film-title">My Love Is Orange</h2>
+        <div class="film-date">2026</div>
+        <div class="film-credits">
+          <div>Co-Written and Co-Directed by Sophia Pasalis and María Ruigómez Eraso</div>
+          <div>Filmed &amp; Edited by Sophia Pasalis</div>
+        </div>
+      </div>
+      <div class="stills" data-stills>
+        <div class="still active" style="background-image:url('images/myloveisorange_images/Screenshot 2026-07-08 at 11.42.22 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.06.33 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.08.11 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.09.35 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.09.54 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.10.10 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.10.24 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.11.01 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.11.50 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.12.17 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.12.29 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.36.34 PM.png')"></div>
+        <button class="still-nav prev" aria-label="Previous still">&lsaquo;</button>
+        <button class="still-nav next" aria-label="Next still">&rsaquo;</button>
+        <div class="still-counter mono"><span class="current">01</span> / <span class="total">12</span></div>
+      </div>
+    </section>
+
+    <section class="film-entry" id="hometown-hero">
+      <div class="film-head">
+        <h2 class="film-title">Hometown Hero</h2>
+        <div class="film-date">2025</div>
+      </div>
+      <div class="stills" data-stills>
+        <div class="still active" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.40.44 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.41.00 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.41.21 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.42.13 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.42.55 PM.png')"></div>
+        <button class="still-nav prev" aria-label="Previous still">&lsaquo;</button>
+        <button class="still-nav next" aria-label="Next still">&rsaquo;</button>
+        <div class="still-counter mono"><span class="current">01</span> / <span class="total">05</span></div>
+      </div>
+      <a class="watch-link" href="https://youtu.be/r2FGX4bruko?si=FBCzDKyFMSoTuhxM" target="_blank" rel="noopener">Watch here →</a>
+    </section>
+
+    <section class="film-entry" id="hello-mary">
+      <div class="film-head">
+        <h2 class="film-title">Hello Mary</h2>
+        <div class="film-date">2026</div>
+      </div>
+      <div class="stills" data-stills>
+        <div class="still active" style="background-image:url('images/hellomary_images/Screenshot 2026-02-16 at 8.07.01 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-02-16 at 8.22.31 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-02-16 at 8.22.53 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-02-16 at 8.23.18 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-08-19 at 1.32.29 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-08-19 at 1.32.55 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-08-19 at 1.34.43 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-08-19 at 1.35.01 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-08-19 at 1.37.17 PM.png')"></div>
+        <div class="still" style="background-image:url('images/hellomary_images/Screenshot 2026-08-19 at 1.38.38 PM.png')"></div>
+        <button class="still-nav prev" aria-label="Previous still">&lsaquo;</button>
+        <button class="still-nav next" aria-label="Next still">&rsaquo;</button>
+        <div class="still-counter mono"><span class="current">01</span> / <span class="total">10</span></div>
+      </div>
+      <a class="watch-link" href="https://youtu.be/Rgr0eEfuA5Y?si=NWJZD8pZbFLlP0hI" target="_blank" rel="noopener">Watch here →</a>
+    </section>
+
+    <section class="film-entry" id="my-every-move">
+      <div class="film-head">
+        <h2 class="film-title">My Every Move</h2>
+        <div class="film-credits">
+          <div>Co-Directed by Sophia Pasalis and Benji Pearson, Filmed and Edited by Sophia Pasalis</div>
+        </div>
+      </div>
+      <div class="stills" data-stills>
+        <div class="still active" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.19.48 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.20.27 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.21.13 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.22.04 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.22.20 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.22.42 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.22.58 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.23.37 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.23.52 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.25.07 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.26.07 PM.png')"></div>
+        <div class="still" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.26.24 PM.png')"></div>
+        <button class="still-nav prev" aria-label="Previous still">&lsaquo;</button>
+        <button class="still-nav next" aria-label="Next still">&rsaquo;</button>
+        <div class="still-counter mono"><span class="current">01</span> / <span class="total">12</span></div>
+      </div>
+    </section>
+
+    <section class="film-entry" id="maddox-cove">
+      <div class="film-head">
+        <h2 class="film-title">Maddox Cove</h2>
+      </div>
+      <div class="stills" data-stills>
+        <div class="still active" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.34.03 PM.png')"></div>
+        <div class="still" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.34.23 PM.png')"></div>
+        <div class="still" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.35.13 PM.png')"></div>
+        <div class="still" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.35.26 PM.png')"></div>
+        <div class="still" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.36.36 PM.png')"></div>
+        <div class="still" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.37.05 PM.png')"></div>
+        <button class="still-nav prev" aria-label="Previous still">&lsaquo;</button>
+        <button class="still-nav next" aria-label="Next still">&rsaquo;</button>
+        <div class="still-counter mono"><span class="current">01</span> / <span class="total">06</span></div>
+      </div>
+    </section>
+  </main>
+
+<script>
+  document.querySelectorAll('.film-entry').forEach(entry => {
+    const stillsEl = entry.querySelector('.stills');
+    const stills = Array.from(stillsEl.querySelectorAll('.still'));
+    const counterEl = entry.querySelector('.still-counter .current');
+    let index = stills.findIndex(s => s.classList.contains('active'));
+    if(index < 0) index = 0;
+
+    function show(i){
+      index = (i + stills.length) % stills.length;
+      stills.forEach((s, idx) => s.classList.toggle('active', idx === index));
+      counterEl.textContent = String(index + 1).padStart(2, '0');
+    }
+
+    entry.querySelector('.prev').addEventListener('click', (e) => {
+      e.stopPropagation();
+      show(index - 1);
+    });
+    entry.querySelector('.next').addEventListener('click', (e) => {
+      e.stopPropagation();
+      show(index + 1);
+    });
+    stillsEl.addEventListener('click', (e) => {
+      if(e.target.closest('.still-nav')) return;
+      show(index + 1);
+    });
+
+    show(index);
+  });
+</script>
+
+</body>
+</html>

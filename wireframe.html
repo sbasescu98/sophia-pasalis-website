@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO — Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100E0B;
+    --bg-alt:#181410;
+    --paper:#ECE4D3;
+    --paper-dim:#B9AF9C;
+    --brass:#C9A227;
+    --brass-dim:#8C7420;
+    --teal:#3E5C58;
+    --rust:#9A5240;
+    --line:rgba(236,228,211,0.14);
+    --line-strong:rgba(236,228,211,0.28);
+    --wall-bg:#D6D6D2;
+    --wall-bg-light:#DEDEDA;
+    --wall-line:rgba(20,20,20,0.16);
+    --floor-bg:#B7B2A8;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--paper);
+    font-family:'Instrument Sans', sans-serif;
+    overflow-x:hidden;
+    cursor:default;
+  }
+
+  ::selection{background:var(--brass);color:var(--bg);}
+
+  a{color:inherit;text-decoration:none;}
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 40px;
+    z-index:50;
+    mix-blend-mode:difference;
+  }
+  .nav .mark{font-family:'Fraunces',serif;font-weight:500;font-size:15px;letter-spacing:0.02em;}
+  .nav .tabs{display:flex;gap:28px;}
+  .nav .tabs a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--paper-dim);
+    position:relative;
+    padding-bottom:3px;
+    transition:color .2s ease;
+  }
+  .nav .tabs a::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:var(--brass);
+    transform:scaleX(0);transform-origin:right;
+    transition:transform .25s ease;
+  }
+  .nav .tabs a:hover{color:var(--paper);}
+  .nav .tabs a:hover::after{transform:scaleX(1);transform-origin:left;}
+  .nav .tabs a.current{color:var(--paper);}
+  @media (max-width:640px){
+    .nav .tabs{gap:16px;}
+    .nav .tabs a{font-size:9px;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:150vh;
+    overflow:visible;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding-top:6vh;
+    padding-bottom:280px;
+  }
+
+  .hero-bg{
+    position:absolute;inset:-10% -10% -10% -10%;
+    z-index:0;
+    background:
+      radial-gradient(ellipse 60% 40% at 50% 78%, rgba(201,162,39,0.18), transparent 60%),
+      linear-gradient(180deg, rgba(16,14,11,0.28) 0%, rgba(20,18,14,0.34) 45%, rgba(27,38,36,0.4) 78%, rgba(23,32,30,0.48) 100%),
+      url('film_background.jpeg');
+    background-size:cover;
+    background-position:center;
+    will-change:transform;
+  }
+  .hero-bg::after{
+    content:'';
+    position:absolute;left:0;right:0;bottom:26%;
+    height:1px;
+    background:linear-gradient(90deg, transparent, rgba(236,228,211,0.35), transparent);
+  }
+  .hero-bg .pier{
+    position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    width:2px;height:30%;
+    background:linear-gradient(180deg, rgba(236,228,211,0.25), transparent);
+  }
+
+  /* ---------- FILM STRIPS ---------- */
+  .strips{
+    position:relative;
+    z-index:4;
+    display:flex;
+    gap:clamp(16px, 3vw, 44px);
+    justify-content:center;
+    align-items:flex-start;
+    margin-top:150px;
+    width:100%;
+    padding:0 24px;
+    will-change:transform;
+  }
+
+  .strip{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    background:#0A0908;
+    padding:6px;
+    border-radius:2px;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,0.7);
+    transform:rotate(var(--tilt)) translateY(0);
+    transition:transform .4s cubic-bezier(.2,.8,.2,1);
+  }
+  .strip:nth-child(1){--tilt:-2.8deg; margin-top:0px;}
+  .strip:nth-child(2){--tilt:1.8deg; margin-top:420px;}
+  .strip:nth-child(3){--tilt:-1.6deg; margin-top:-130px;}
+  .strip:nth-child(4){--tilt:2.6deg; margin-top:660px; margin-left:-40px;}
+  .strip:nth-child(5){--tilt:-2.2deg; margin-top:240px;}
+  .strip:nth-child(6){--tilt:2.1deg; margin-top:480px;}
+  .strip:hover{transform:rotate(0deg) translateY(-6px);}
+
+  .sprockets{
+    display:flex;justify-content:space-between;width:100%;
+    padding:0 3px;margin-bottom:6px;
+  }
+  .sprockets span{
+    width:6px;height:4px;background:var(--bg);border-radius:1px;
+  }
+
+  .frame{
+    display:block;
+    width:clamp(96px, 12vw, 148px);
+    aspect-ratio:4/3;
+    margin:5px 0;
+    position:relative;
+    overflow:hidden;
+    cursor:pointer;
+    background-color:#0A0908;
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+  }
+  .frame::before{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(16,14,11,0.05), rgba(16,14,11,0.25));
+    pointer-events:none;
+  }
+  .frame::after{
+    content:'';position:absolute;inset:0;
+    background:repeating-linear-gradient(0deg, rgba(0,0,0,0.06) 0 2px, transparent 2px 4px);
+    mix-blend-mode:overlay;
+    pointer-events:none;
+  }
+
+  .strip .cap{
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;color:var(--paper-dim);
+    letter-spacing:0.08em;
+    margin-top:4px;
+    align-self:flex-start;
+    text-align:left;
+  }
+
+  /* ---------- TRANSITION ---------- */
+  .transition{
+    height:38vh;
+    background:linear-gradient(180deg, #17201E 0%, var(--wall-bg) 100%);
+  }
+
+  /* ---------- GALLERY ---------- */
+  .gallery{
+    position:relative;
+    background:
+      linear-gradient(90deg, rgba(0,0,0,0.14) 0%, rgba(0,0,0,0.02) 10%, transparent 24%, transparent 76%, rgba(0,0,0,0.02) 90%, rgba(0,0,0,0.14) 100%),
+      linear-gradient(180deg, rgba(255,255,255,0.5) 0%, transparent 260px),
+      var(--wall-bg);
+    padding:580px 0 120px;
+    overflow:hidden;
+    opacity:0;
+    transition:opacity 1.4s ease;
+  }
+  .gallery.in-view{opacity:1;}
+  .gallery-grid{
+    position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 80% 55% at 50% 0%, rgba(255,255,255,0.35), transparent 70%);
+  }
+
+  .gallery-floor{
+    position:absolute;left:0;right:0;bottom:0;
+    height:90px;
+    z-index:1;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0.32) 0%, rgba(0,0,0,0.18) 14px, rgba(0,0,0,0.08) 32px, rgba(0,0,0,0.02) 55px, transparent 78px),
+      linear-gradient(90deg, rgba(0,0,0,0.08), transparent 18%, transparent 82%, rgba(0,0,0,0.08)),
+      linear-gradient(180deg, var(--floor-bg) 0%, #A39C90 100%);
+  }
+  .gallery-floor .copyright{
+    position:absolute;left:40px;bottom:16px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;letter-spacing:0.1em;
+    color:rgba(0,0,0,0.85);
+  }
+
+  .wall{
+    position:relative;z-index:2;
+    max-width:1100px;
+    height:1440px;
+    margin:0 auto;
+    padding:0 40px 0 60px;
+  }
+
+  .painting{
+    position:absolute;
+    box-shadow:0 16px 32px -14px rgba(0,0,0,0.55);
+    opacity:0;
+    transform:translateY(28px);
+    transition:opacity .8s ease, transform .3s cubic-bezier(.2,.8,.2,1), z-index 0s;
+    cursor:pointer;
+  }
+  .painting.in-view{opacity:1;transform:translateY(0);}
+  .painting:hover{transform:translateY(-6px);z-index:50 !important;}
+  .painting img{
+    display:block;
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    pointer-events:none;
+  }
+  .painting::after{
+    content:'';
+    position:absolute;inset:0;
+    border:3px solid rgba(0,0,0,0.8);
+    pointer-events:none;
+  }
+
+  .wall-scroller{
+    padding:20px 0 40px;
+  }
+
+  /* ---------- TOAST ---------- */
+  .toast{
+    position:fixed;left:50%;bottom:36px;
+    transform:translate(-50%, 20px);
+    background:var(--paper);color:var(--bg);
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.06em;
+    padding:12px 20px;border-radius:2px;
+    opacity:0;pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+    z-index:100;
+  }
+  .toast.show{opacity:1;transform:translate(-50%,0);}
+
+  @media (prefers-reduced-motion: reduce){
+    *{transition:none !important; animation:none !important;}
+    html{scroll-behavior:auto;}
+  }
+
+  @media (max-width:640px){
+    .strips{gap:10px;}
+    .strip{padding:5px;}
+    .frame{width:76px;}
+    .wall{min-height:auto;}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <span class="mark" id="navMark">STUDIO</span>
+    <div class="tabs">
+      <a href="wireframe.html" class="current">Home</a>
+      <a href="films.html">Filmworks</a>
+      <a href="#painting">Painting</a>
+      <a href="#" data-toast-msg="Writing — coming soon">Writing</a>
+      <a href="#" data-toast-msg="About — coming soon">About</a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO / FILMWORKS ================= -->
+  <section class="hero" id="filmworks">
+    <div class="hero-bg" id="heroBg"><div class="pier"></div></div>
+
+    <div class="strips" id="strips">
+      <div class="strip">
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <a class="frame" href="films.html#the-envelope" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.50.49 PM.png')"></a>
+        <a class="frame" href="films.html#the-envelope" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.51.49 PM.png')"></a>
+        <a class="frame" href="films.html#the-envelope" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.53.07 PM.png')"></a>
+        <a class="frame" href="films.html#the-envelope" style="background-image:url('images/theenvelope/Screenshot 2026-08-21 at 12.54.30 PM.png')"></a>
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <span class="cap">THE ENVELOPE</span>
+      </div>
+      <div class="strip">
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <a class="frame" href="films.html#my-love-is-orange" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.06.33 PM.png')"></a>
+        <a class="frame" href="films.html#my-love-is-orange" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.09.35 PM.png')"></a>
+        <a class="frame" href="films.html#my-love-is-orange" style="background-image:url('images/myloveisorange_images/Screenshot 2026-08-09 at 5.12.29 PM.png')"></a>
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <span class="cap">MY LOVE IS ORANGE</span>
+      </div>
+      <div class="strip">
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <a class="frame" href="films.html#hometown-hero" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.40.44 PM.png')"></a>
+        <a class="frame" href="films.html#hometown-hero" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.41.00 PM.png')"></a>
+        <a class="frame" href="films.html#hometown-hero" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.41.21 PM.png')"></a>
+        <a class="frame" href="films.html#hometown-hero" style="background-image:url('images/hometownhero_images/Screenshot 2026-08-19 at 1.42.55 PM.png')"></a>
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <span class="cap">HOMETOWN HERO</span>
+      </div>
+      <div class="strip">
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <a class="frame" href="films.html#hello-mary" style="background-image:url('images/hellomary_images/Screenshot 2026-02-16 at 8.07.01 PM.png')"></a>
+        <a class="frame" href="films.html#hello-mary" style="background-image:url('images/hellomary_images/Screenshot 2026-02-16 at 8.22.53 PM.png')"></a>
+        <a class="frame" href="films.html#hello-mary" style="background-image:url('images/hellomary_images/Screenshot 2026-08-19 at 1.35.01 PM.png')"></a>
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <span class="cap">HELLO MARY</span>
+      </div>
+      <div class="strip">
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <a class="frame" href="films.html#my-every-move" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.19.48 PM.png')"></a>
+        <a class="frame" href="films.html#my-every-move" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.21.13 PM.png')"></a>
+        <a class="frame" href="films.html#my-every-move" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.23.37 PM.png')"></a>
+        <a class="frame" href="films.html#my-every-move" style="background-image:url('images/myeeverymove_images/Screenshot 2026-08-19 at 1.26.07 PM.png')"></a>
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <span class="cap">MY EVERY MOVE</span>
+      </div>
+      <div class="strip">
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <a class="frame" href="films.html#maddox-cove" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.34.03 PM.png')"></a>
+        <a class="frame" href="films.html#maddox-cove" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.34.23 PM.png')"></a>
+        <a class="frame" href="films.html#maddox-cove" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.35.13 PM.png')"></a>
+        <a class="frame" href="films.html#maddox-cove" style="background-image:url('images/maddox cove/Screenshot 2026-08-21 at 12.36.36 PM.png')"></a>
+        <div class="sprockets"><span></span><span></span><span></span><span></span></div>
+        <span class="cap">MADDOX COVE</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="transition"></div>
+
+  <!-- ================= GALLERY ================= -->
+  <section class="gallery" id="painting">
+    <div class="gallery-grid"></div>
+    <div class="gallery-floor">
+      <div class="copyright">© 2026 Sophia Pasalis. All rights reserved.</div>
+    </div>
+
+    <div class="wall-scroller">
+      <div class="wall">
+        <!-- Reverted to original layout, but the <img> itself is rotated upright -->
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:777.85px;top:55.85px;width:195px;height:260px;">
+          <img src="images/paintings/jpg/IMG_8635.jpg?v=2" alt="" loading="lazy" style="position: absolute; top: 50%; left: 50%; width: 260px; height: 195px; max-width: none; transform: translate(-50%, -50%) rotate(-90deg);">
+        </div>
+
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:563.81px;top:1148.15px;width:153.48px;height:235px;"><img src="images/paintings/jpg/IMG_3825.jpg" alt="" loading="lazy"></div>
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:131.35px;top:149.96px;width:175px;height:175px;"><img src="images/paintings/jpg/IMG_8629.jpg" alt="" loading="lazy"></div>
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:578.02px;top:552.89px;width:322.24px;height:430px;"><img src="images/paintings/jpg/IMG_8628.jpg" alt="" loading="lazy"></div>
+
+        <!-- Reverted to original layout, but the <img> itself is rotated upright -->
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:834.2px;top:1075px;width:165px;height:220px;">
+          <img src="images/paintings/jpg/IMG_8636.jpg?v=2" alt="" loading="lazy" style="position: absolute; top: 50%; left: 50%; width: 220px; height: 165px; max-width: none; transform: translate(-50%, -50%) rotate(-90deg);">
+        </div>
+
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:153.7px;top:549.77px;width:290px;height:290px;"><img src="images/paintings/jpg/IMG_8633.jpg" alt="" loading="lazy"></div>
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:179.64px;top:926.47px;width:300.38px;height:450px;"><img src="images/paintings/jpg/IMG_8632.jpg" alt="" loading="lazy"></div>
+        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:399.43px;top:89.45px;width:268.48px;height:370px;"><img src="images/paintings/jpg/IMG_8630.jpg" alt="" loading="lazy"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast" id="toast">Would open the film page →</div>
+
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // --- Parallax: background moves slow, film strips move fast ---
+  const heroBg = document.getElementById('heroBg');
+  const strips = document.getElementById('strips');
+  const hero = document.getElementById('filmworks');
+  const gallerySection = document.querySelector('.gallery');
+  const navMark = document.getElementById('navMark');
+  const FADE_START_BEFORE = -400;
+  const FADE_END_AFTER = 1100;
+
+  function onScroll(){
+    if(reduceMotion) return;
+    const heroHeight = hero.offsetHeight;
+    const y = window.scrollY;
+    if(y < heroHeight * 1.2){
+      heroBg.style.transform = `translateY(${y * 0.18}px)`;
+      strips.style.transform = `translateY(${y * 0.55}px)`;
+    }
+    // stay fully visible until the gallery is nearly in view, then keep some strips showing
+    // through the top of the gallery background before finishing the fade
+    const distanceToGallery = gallerySection.getBoundingClientRect().top - window.innerHeight;
+    const fade = Math.min(1, Math.max(0, (distanceToGallery + FADE_END_AFTER) / (FADE_START_BEFORE + FADE_END_AFTER)));
+    strips.style.opacity = fade;
+    strips.style.pointerEvents = fade < 0.05 ? 'none' : 'auto';
+
+    // swap the nav mark once the gallery background reaches the top of the viewport
+    const inGallery = gallerySection.getBoundingClientRect().top <= 0;
+    const label = inGallery ? 'GALLERY' : 'STUDIO';
+    if(navMark.textContent !== label) navMark.textContent = label;
+  }
+  window.addEventListener('scroll', onScroll, {passive:true});
+
+  // --- Click title, frame, or placeholder nav tab -> show where it would go ---
+  const toast = document.getElementById('toast');
+  let toastTimer;
+  function showToast(msg){
+    toast.textContent = msg || 'Would open →';
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
+  }
+  document.querySelectorAll('[data-toast-msg]').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      if(el.tagName === 'A' && el.getAttribute('href') === '#') e.preventDefault();
+      showToast(el.dataset.toastMsg);
+    });
+  });
+
+  // --- Gallery section fade-in on scroll ---
+  const galleryIo = new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+        galleryIo.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.1});
+  galleryIo.observe(gallerySection);
+
+  // --- Paintings reveal on scroll ---
+  const paintings = document.querySelectorAll('.painting');
+  const io = new IntersectionObserver((entries)=>{
+    entries.forEach((entry, i)=>{
+      if(entry.isIntersecting){
+        setTimeout(()=> entry.target.classList.add('in-view'), i * 90);
+        io.unobserve(entry.target);
+      }
+    });
+  }, {threshold:0.25});
+  paintings.forEach(p => io.observe(p));
+</script>
+
+</body>
+</html>
