@@ -26,7 +26,7 @@
   }
 
   *{margin:0;padding:0;box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
+  html{scroll-behavior:smooth;overflow-x:hidden;}
   body{
     background:var(--bg);
     color:var(--paper);
@@ -73,8 +73,10 @@
   .nav .tabs a:hover::after{transform:scaleX(1);transform-origin:left;}
   .nav .tabs a.current{color:var(--paper);}
   @media (max-width:640px){
-    .nav .tabs{gap:16px;}
-    .nav .tabs a{font-size:9px;}
+    .nav{padding:16px 16px;}
+    .nav .mark{font-size:12px;}
+    .nav .tabs{gap:9px;}
+    .nav .tabs a{font-size:8px;}
   }
 
   /* ---------- HERO ---------- */
@@ -285,20 +287,21 @@
   }
 
   @media (max-width:640px){
+    /* render at natural/design size first — JS measures this and scales it
+       down to fit the viewport, rather than letting it get squeezed or clipped */
     .strips{
-      gap:10px;
+      width:max-content;
       justify-content:flex-start;
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
-      padding:0 20px;
+      align-self:flex-start;
+      transform-origin:top left;
     }
-    .strip{padding:5px;flex:none;}
-    .frame{width:76px;}
-    .wall-scroller{
-      overflow-x:auto;
-      -webkit-overflow-scrolling:touch;
+    .strip{flex-shrink:0;}
+    .wall{
+      width:1100px;
+      margin:0;
+      transform-origin:top left;
     }
-    .wall{width:1100px;}
+    .gallery{padding:220px 0 100px;}
   }
 </style>
 </head>
@@ -411,15 +414,45 @@
 
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const MOBILE_BREAKPOINT = 640;
 
   // --- Parallax: background moves slow, film strips move fast ---
   const heroBg = document.getElementById('heroBg');
   const strips = document.getElementById('strips');
   const hero = document.getElementById('filmworks');
   const gallerySection = document.querySelector('.gallery');
+  const wallEl = document.querySelector('.wall');
+  const wallScroller = document.querySelector('.wall-scroller');
   const navMark = document.getElementById('navMark');
   const FADE_START_BEFORE = -400;
   const FADE_END_AFTER = 1100;
+
+  // --- Shrink the (desktop-sized) film strips and gallery wall to fit small
+  // screens, rather than clipping or squeezing them. Measures each section's
+  // true rendered size, then scales the whole thing down to the viewport
+  // width and shrinks the reserved layout space to match.
+  let stripsScale = 1;
+  function fitMobile(){
+    const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
+
+    strips.style.height = '';
+    strips.style.transform = '';
+    const stripsRect = strips.getBoundingClientRect();
+    stripsScale = (isMobile && stripsRect.width) ? window.innerWidth / stripsRect.width : 1;
+    strips.style.height = isMobile ? (stripsRect.height * stripsScale) + 'px' : '';
+    // baseline scale so the fit still applies even when the scroll handler
+    // is skipped (reduced-motion) or hasn't run yet
+    strips.style.transform = `scale(${stripsScale})`;
+
+    wallEl.style.transform = '';
+    wallScroller.style.height = '';
+    if(isMobile){
+      const wallRect = wallEl.getBoundingClientRect();
+      const wallScale = wallRect.width ? window.innerWidth / wallRect.width : 1;
+      wallEl.style.transform = `scale(${wallScale})`;
+      wallScroller.style.height = (wallRect.height * wallScale) + 'px';
+    }
+  }
 
   let ticking = false;
   function updateScrollEffects(){
@@ -433,7 +466,7 @@
 
     if(y < heroHeight * 1.2){
       heroBg.style.transform = `translateY(${y * 0.18}px)`;
-      strips.style.transform = `translateY(${y * 0.55}px)`;
+      strips.style.transform = `scale(${stripsScale}) translateY(${y * 0.55}px)`;
     }
     // stay fully visible until the gallery is nearly in view, then keep some strips showing
     // through the top of the gallery background before finishing the fade
@@ -453,6 +486,15 @@
     }
   }
   window.addEventListener('scroll', onScroll, {passive:true});
+
+  fitMobile();
+  updateScrollEffects();
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { fitMobile(); updateScrollEffects(); }, 150);
+  });
+  window.addEventListener('orientationchange', () => { fitMobile(); updateScrollEffects(); });
 
   // --- Click title, frame, or placeholder nav tab -> show where it would go ---
   const toast = document.getElementById('toast');
