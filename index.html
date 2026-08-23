@@ -288,18 +288,6 @@
   }
 
   /* ---------- TOAST ---------- */
-  .toast{
-    position:fixed;left:50%;bottom:36px;
-    transform:translate(-50%, 20px);
-    background:var(--paper);color:var(--bg);
-    font-family:'JetBrains Mono',monospace;
-    font-size:11px;letter-spacing:0.06em;
-    padding:12px 20px;border-radius:2px;
-    opacity:0;pointer-events:none;
-    transition:opacity .3s ease, transform .3s ease;
-    z-index:100;
-  }
-  .toast.show{opacity:1;transform:translate(-50%,0);}
 
   @media (prefers-reduced-motion: reduce){
     *{transition:none !important; animation:none !important;}
@@ -414,27 +402,25 @@
           <span class="subtitle">Acrylic, Various Sizes, 2026</span>
         </div>
         <!-- Reverted to original layout, but the <img> itself is rotated upright -->
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:777.85px;top:55.85px;width:195px;height:260px;">
+        <div class="painting" style="left:777.85px;top:55.85px;width:195px;height:260px;">
           <img src="images/paintings/jpg/IMG_8635.jpg?v=2" alt="" loading="lazy" style="position: absolute; top: 50%; left: 50%; width: 260px; height: 195px; max-width: none; transform: translate(-50%, -50%) rotate(-90deg);">
         </div>
 
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:563.81px;top:1148.15px;width:153.48px;height:235px;"><img src="images/paintings/jpg/IMG_3825.jpg" alt="" loading="lazy"></div>
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:131.35px;top:149.96px;width:175px;height:175px;"><img src="images/paintings/jpg/IMG_8629.jpg" alt="" loading="lazy"></div>
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:578.02px;top:552.89px;width:322.24px;height:430px;"><img src="images/paintings/jpg/IMG_8628.jpg" alt="" loading="lazy"></div>
+        <div class="painting" style="left:563.81px;top:1148.15px;width:153.48px;height:235px;"><img src="images/paintings/jpg/IMG_3825.jpg" alt="" loading="lazy"></div>
+        <div class="painting" style="left:131.35px;top:149.96px;width:175px;height:175px;"><img src="images/paintings/jpg/IMG_8629.jpg" alt="" loading="lazy"></div>
+        <div class="painting" style="left:578.02px;top:552.89px;width:322.24px;height:430px;"><img src="images/paintings/jpg/IMG_8628.jpg" alt="" loading="lazy"></div>
 
         <!-- Reverted to original layout, but the <img> itself is rotated upright -->
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:834.2px;top:1075px;width:165px;height:220px;">
+        <div class="painting" style="left:834.2px;top:1075px;width:165px;height:220px;">
           <img src="images/paintings/jpg/IMG_8636.jpg?v=2" alt="" loading="lazy" style="position: absolute; top: 50%; left: 50%; width: 220px; height: 165px; max-width: none; transform: translate(-50%, -50%) rotate(-90deg);">
         </div>
 
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:153.7px;top:549.77px;width:290px;height:290px;"><img src="images/paintings/jpg/IMG_8633.jpg" alt="" loading="lazy"></div>
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:179.64px;top:926.47px;width:300.38px;height:450px;"><img src="images/paintings/jpg/IMG_8632.jpg" alt="" loading="lazy"></div>
-        <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:399.43px;top:89.45px;width:268.48px;height:370px;"><img src="images/paintings/jpg/IMG_8630.jpg" alt="" loading="lazy"></div>
+        <div class="painting" style="left:153.7px;top:549.77px;width:290px;height:290px;"><img src="images/paintings/jpg/IMG_8633.jpg" alt="" loading="lazy"></div>
+        <div class="painting" style="left:179.64px;top:926.47px;width:300.38px;height:450px;"><img src="images/paintings/jpg/IMG_8632.jpg" alt="" loading="lazy"></div>
+        <div class="painting" style="left:399.43px;top:89.45px;width:268.48px;height:370px;"><img src="images/paintings/jpg/IMG_8630.jpg" alt="" loading="lazy"></div>
       </div>
     </div>
   </section>
-
-  <div class="toast" id="toast">Would open the film page →</div>
 
 <script>
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -519,22 +505,6 @@
     resizeTimer = setTimeout(() => { fitMobile(); updateScrollEffects(); }, 150);
   });
   window.addEventListener('orientationchange', () => { fitMobile(); updateScrollEffects(); });
-
-  // --- Click title, frame, or placeholder nav tab -> show where it would go ---
-  const toast = document.getElementById('toast');
-  let toastTimer;
-  function showToast(msg){
-    toast.textContent = msg || 'Would open →';
-    toast.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(()=> toast.classList.remove('show'), 1800);
-  }
-  document.querySelectorAll('[data-toast-msg]').forEach(el=>{
-    el.addEventListener('click', (e)=>{
-      if(el.tagName === 'A' && el.getAttribute('href') === '#') e.preventDefault();
-      showToast(el.dataset.toastMsg);
-    });
-  });
 
   // --- Gallery section fade-in on scroll ---
   const galleryIo = new IntersectionObserver((entries)=>{
