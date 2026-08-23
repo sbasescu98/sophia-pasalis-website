@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO — Writing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100E0B;
+    --bg-alt:#181410;
+    --paper:#ECE4D3;
+    --paper-dim:#B9AF9C;
+    --brass:#C9A227;
+    --brass-dim:#8C7420;
+    --line:rgba(236,228,211,0.14);
+    --line-strong:rgba(236,228,211,0.28);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,162,39,0.05), transparent 60%),
+      var(--bg);
+    color:var(--paper);
+    font-family:'Instrument Sans', sans-serif;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--brass);color:var(--bg);}
+  a{color:inherit;text-decoration:none;}
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 40px;
+    z-index:50;
+    mix-blend-mode:difference;
+  }
+  .nav .mark{font-family:'Fraunces',serif;font-weight:500;font-size:15px;letter-spacing:0.02em;cursor:pointer;}
+  .nav .tabs{display:flex;gap:28px;}
+  .nav .tabs a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--paper-dim);
+    position:relative;
+    padding-bottom:3px;
+    transition:color .2s ease;
+  }
+  .nav .tabs a::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:var(--brass);
+    transform:scaleX(0);transform-origin:right;
+    transition:transform .25s ease;
+  }
+  .nav .tabs a:hover{color:var(--paper);}
+  .nav .tabs a:hover::after{transform:scaleX(1);transform-origin:left;}
+  .nav .tabs a.current{color:var(--paper);}
+  .nav .tabs a.current::after{transform:scaleX(1);}
+  @media (max-width:640px){
+    .nav .tabs{gap:16px;}
+    .nav .tabs a{font-size:9px;}
+  }
+
+  /* ---------- PAGE HEAD ---------- */
+  .page-head{
+    max-width:960px;margin:0 auto;
+    padding:150px 40px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .page-head .eyebrow{
+    font-size:11px;letter-spacing:0.28em;color:var(--brass);
+  }
+
+  /* ---------- WRITING ENTRY ---------- */
+  .writing-entry{
+    max-width:960px;margin:0 auto;
+    padding:40px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .writing-entry:last-child{border-bottom:none;padding-bottom:120px;}
+
+  .writing-title{
+    display:inline-block;
+    font-family:'JetBrains Mono',monospace;
+    font-weight:500;
+    text-transform:uppercase;
+    font-size:clamp(16px,1.6vw,20px);
+    letter-spacing:0.12em;
+    transition:color .2s ease;
+  }
+  .writing-title:hover{color:var(--brass);}
+
+  .read-link{
+    display:inline-block;
+    margin-top:16px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--brass);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .read-link:hover{border-color:var(--brass);color:var(--paper);}
+
+  @media (max-width:640px){
+    .page-head{padding:130px 24px 40px;}
+    .writing-entry{padding:28px 24px;}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="mark" href="index.html">STUDIO</a>
+    <div class="tabs">
+      <a href="index.html">Home</a>
+      <a href="films.html">Filmworks</a>
+      <a href="index.html#painting">Painting</a>
+      <a href="writing.html" class="current">Writing</a>
+      <a href="about.html">About</a>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="eyebrow mono">Writing</div>
+  </header>
+
+  <main>
+    <section class="writing-entry">
+      <a class="writing-title" href="https://substack.com/@sophiapasalis/note/p-209477989?r=1navfg&amp;utm_source=notes-share-action&amp;utm_medium=web" target="_blank" rel="noopener">'On Persuasion'</a>
+      <br>
+      <a class="read-link" href="https://substack.com/@sophiapasalis/note/p-209477989?r=1navfg&amp;utm_source=notes-share-action&amp;utm_medium=web" target="_blank" rel="noopener">Read here →</a>
+    </section>
+
+    <section class="writing-entry">
+      <a class="writing-title" href="https://substack.com/@sophiapasalis/note/p-204923401?r=1navfg&amp;utm_source=notes-share-action&amp;utm_medium=web" target="_blank" rel="noopener">'You Can Never Find True Red'</a>
+      <br>
+      <a class="read-link" href="https://substack.com/@sophiapasalis/note/p-204923401?r=1navfg&amp;utm_source=notes-share-action&amp;utm_medium=web" target="_blank" rel="noopener">Read here →</a>
+    </section>
+
+    <section class="writing-entry">
+      <a class="writing-title" href="https://www.jesus.cam.ac.uk/articles/winners-announced-college-short-story-competition-3" target="_blank" rel="noopener">'A Portrait of Fraser as a Boy'</a>
+      <br>
+      <a class="read-link" href="https://www.jesus.cam.ac.uk/articles/winners-announced-college-short-story-competition-3" target="_blank" rel="noopener">Read here →</a>
+    </section>
+  </main>
+
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STUDIO — About</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;1,9..144,500&family=JetBrains+Mono:wght@400;500&family=Instrument+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#100E0B;
+    --bg-alt:#181410;
+    --paper:#ECE4D3;
+    --paper-dim:#B9AF9C;
+    --brass:#C9A227;
+    --brass-dim:#8C7420;
+    --line:rgba(236,228,211,0.14);
+    --line-strong:rgba(236,228,211,0.28);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:
+      radial-gradient(ellipse 70% 50% at 50% 0%, rgba(201,162,39,0.05), transparent 60%),
+      var(--bg);
+    color:var(--paper);
+    font-family:'Instrument Sans', sans-serif;
+    overflow-x:hidden;
+  }
+
+  ::selection{background:var(--brass);color:var(--bg);}
+  a{color:inherit;text-decoration:none;}
+
+  .mono{
+    font-family:'JetBrains Mono', monospace;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:fixed;top:0;left:0;right:0;
+    display:flex;justify-content:space-between;align-items:center;
+    padding:22px 40px;
+    z-index:50;
+    mix-blend-mode:difference;
+  }
+  .nav .mark{font-family:'Fraunces',serif;font-weight:500;font-size:15px;letter-spacing:0.02em;cursor:pointer;}
+  .nav .tabs{display:flex;gap:28px;}
+  .nav .tabs a{
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--paper-dim);
+    position:relative;
+    padding-bottom:3px;
+    transition:color .2s ease;
+  }
+  .nav .tabs a::after{
+    content:'';position:absolute;left:0;right:0;bottom:0;height:1px;
+    background:var(--brass);
+    transform:scaleX(0);transform-origin:right;
+    transition:transform .25s ease;
+  }
+  .nav .tabs a:hover{color:var(--paper);}
+  .nav .tabs a:hover::after{transform:scaleX(1);transform-origin:left;}
+  .nav .tabs a.current{color:var(--paper);}
+  .nav .tabs a.current::after{transform:scaleX(1);}
+  @media (max-width:640px){
+    .nav .tabs{gap:16px;}
+    .nav .tabs a{font-size:9px;}
+  }
+
+  /* ---------- PAGE HEAD ---------- */
+  .page-head{
+    max-width:960px;margin:0 auto;
+    padding:150px 40px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  .page-head .eyebrow{
+    font-size:11px;letter-spacing:0.28em;color:var(--brass);
+  }
+
+  /* ---------- BIO ---------- */
+  .bio-section{
+    max-width:640px;margin:0 auto;
+    padding:60px 40px 140px;
+  }
+  .bio{
+    font-family:'Instrument Sans',sans-serif;
+    font-size:16px;line-height:1.8;
+    color:var(--paper-dim);
+  }
+  .contact{
+    margin-top:36px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:11px;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--brass);
+    border-bottom:1px solid transparent;
+    display:inline-block;
+    transition:border-color .2s ease, color .2s ease;
+  }
+  .contact:hover{border-color:var(--brass);color:var(--paper);}
+
+  @media (max-width:640px){
+    .page-head{padding:130px 24px 40px;}
+    .bio-section{padding:40px 24px 90px;}
+  }
+</style>
+</head>
+<body>
+
+  <nav class="nav">
+    <a class="mark" href="index.html">STUDIO</a>
+    <div class="tabs">
+      <a href="index.html">Home</a>
+      <a href="films.html">Filmworks</a>
+      <a href="index.html#painting">Painting</a>
+      <a href="writing.html">Writing</a>
+      <a href="about.html" class="current">About</a>
+    </div>
+  </nav>
+
+  <header class="page-head">
+    <div class="eyebrow mono">About</div>
+  </header>
+
+  <main>
+    <section class="bio-section">
+      <p class="bio">Sophia Pasalis is a filmmaker and writer based in the UK. She recently completed her MPhil in Film and Screen by Advanced Study with Distinction at the University of Cambridge. She is a graduate of Harvard University, where she studied History and Literature and Art, Film, and Visual Studies. Along with producing her own projects, she has supported other filmmakers, musicians, artists, and organizations with cinematography, creative direction, and editing.</p>
+      <a class="contact" href="mailto:pasalisfilms@gmail.com">Contact: pasalisfilms@gmail.com</a>
+    </section>
+  </main>
+
+</body>
+</html>
