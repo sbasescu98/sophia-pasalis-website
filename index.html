@@ -231,6 +231,14 @@
     color:rgba(0,0,0,0.85);
   }
 
+  .wall-caption{
+    position:absolute;
+    white-space:nowrap;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;letter-spacing:0.08em;text-transform:uppercase;
+    color:rgba(0,0,0,0.55);
+  }
+
   .wall{
     position:relative;z-index:2;
     max-width:1100px;
@@ -381,7 +389,7 @@
   <div class="transition"></div>
 
   <!-- ================= GALLERY ================= -->
-  <section class="gallery" id="painting">
+  <section class="gallery">
     <div class="gallery-grid"></div>
     <div class="gallery-floor">
       <div class="copyright">© 2026 Sophia Pasalis. All rights reserved.</div>
@@ -389,6 +397,7 @@
 
     <div class="wall-scroller">
       <div class="wall">
+        <div class="wall-caption" id="painting" style="left:131.35px;top:104px;">Paintings on Acrylic, Various Sizes, 2026</div>
         <!-- Reverted to original layout, but the <img> itself is rotated upright -->
         <div class="painting" data-frame data-toast-msg="Would open painting →" style="left:777.85px;top:55.85px;width:195px;height:260px;">
           <img src="images/paintings/jpg/IMG_8635.jpg?v=2" alt="" loading="lazy" style="position: absolute; top: 50%; left: 50%; width: 260px; height: 195px; max-width: none; transform: translate(-50%, -50%) rotate(-90deg);">
