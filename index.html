@@ -230,6 +230,15 @@
     font-size:9px;letter-spacing:0.1em;
     color:rgba(0,0,0,0.85);
   }
+  .gallery-floor .credit{
+    position:absolute;right:40px;bottom:16px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:9px;letter-spacing:0.1em;
+    color:rgba(0,0,0,0.55);
+  }
+  @media (max-width:640px){
+    .gallery-floor .credit{display:none;}
+  }
 
   .wall-caption{
     position:absolute;
@@ -393,6 +402,7 @@
     <div class="gallery-grid"></div>
     <div class="gallery-floor">
       <div class="copyright">© 2026 Sophia Pasalis. All rights reserved.</div>
+      <div class="credit">Website by Simon Basescu — srbasescu@gmail.com</div>
     </div>
 
     <div class="wall-scroller">
@@ -464,15 +474,25 @@
     }
   }
 
+  // Cache the layout measurements the scroll handler needs, so scrolling
+  // itself never forces a synchronous layout recalculation (the previous
+  // per-frame offsetHeight/getBoundingClientRect reads were the actual
+  // cause of the stutter — refreshed here instead, only on load/resize).
+  let heroHeightCache = 0;
+  let galleryOffsetTopCache = 0;
+  function cacheLayout(){
+    heroHeightCache = hero.offsetHeight;
+    galleryOffsetTopCache = gallerySection.getBoundingClientRect().top + window.scrollY;
+  }
+
   let ticking = false;
   function updateScrollEffects(){
     ticking = false;
     if(reduceMotion) return;
 
-    // reads first, then writes, to avoid forcing extra layout passes
-    const heroHeight = hero.offsetHeight;
+    const heroHeight = heroHeightCache;
     const y = window.scrollY;
-    const galleryTop = gallerySection.getBoundingClientRect().top;
+    const galleryTop = galleryOffsetTopCache - y;
 
     if(y < heroHeight * 1.2){
       heroBg.style.transform = `translateY(${y * 0.18}px)`;
@@ -498,13 +518,14 @@
   window.addEventListener('scroll', onScroll, {passive:true});
 
   fitMobile();
+  cacheLayout();
   updateScrollEffects();
   let resizeTimer;
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => { fitMobile(); updateScrollEffects(); }, 150);
+    resizeTimer = setTimeout(() => { fitMobile(); cacheLayout(); updateScrollEffects(); }, 150);
   });
-  window.addEventListener('orientationchange', () => { fitMobile(); updateScrollEffects(); });
+  window.addEventListener('orientationchange', () => { fitMobile(); cacheLayout(); updateScrollEffects(); });
 
   // --- Gallery section fade-in on scroll ---
   const galleryIo = new IntersectionObserver((entries)=>{
