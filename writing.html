@@ -130,8 +130,7 @@
     border-bottom:1px dotted currentColor;
     cursor:default;
   }
-  .credit-name::after{
-    content:'srbasescu@gmail.com';
+  .credit-name .email-pop{
     position:absolute;
     left:50%;bottom:100%;
     transform:translateX(-50%) translateY(-6px);
@@ -140,9 +139,10 @@
     font-size:9px;white-space:nowrap;
     opacity:0;pointer-events:none;
     transition:opacity .2s ease;
+    user-select:text;
     z-index:10;
   }
-  .credit-name:hover::after{opacity:1;}
+  .credit-name:hover .email-pop{opacity:1;pointer-events:auto;}
 </style>
 </head>
 <body>
@@ -179,7 +179,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">Website by <span class="credit-name">Simon Basescu</span></footer>
+  <footer class="site-footer">Website by <span class="credit-name">Simon Basescu<span class="email-pop">srbasescu@gmail.com</span></span></footer>
 
 </body>
 </html>
