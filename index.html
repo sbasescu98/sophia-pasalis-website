@@ -245,16 +245,19 @@
   .gallery-floor .credit-name .email-pop{
     position:absolute;
     right:0;bottom:100%;
-    transform:translateY(-6px);
+    padding-bottom:14px;
+    z-index:10;
+  }
+  .gallery-floor .credit-name .email-pop-inner{
+    display:block;
     background:var(--bg);color:var(--paper);
     padding:4px 8px;border-radius:2px;
     font-size:9px;white-space:nowrap;
     opacity:0;pointer-events:none;
-    transition:opacity .2s ease;
+    transition:opacity .2s ease .15s;
     user-select:text;
-    z-index:10;
   }
-  .gallery-floor .credit-name:hover .email-pop{opacity:1;pointer-events:auto;}
+  .gallery-floor .credit-name:hover .email-pop-inner{opacity:1;pointer-events:auto;transition-delay:0s;}
   @media (max-width:640px){
     .gallery-floor .credit{display:none;}
   }
@@ -422,7 +425,7 @@
     <div class="gallery-grid"></div>
     <div class="gallery-floor">
       <div class="copyright">© 2026 Sophia Pasalis. All rights reserved.</div>
-      <div class="credit">Website by <span class="credit-name">Simon Basescu<span class="email-pop">srbasescu@gmail.com</span></span></div>
+      <div class="credit">Website by <span class="credit-name">Simon Basescu<span class="email-pop"><span class="email-pop-inner">srbasescu@gmail.com</span></span></span></div>
     </div>
 
     <div class="wall-scroller">
