@@ -245,7 +245,6 @@
   .gallery-floor .credit-name .email-pop{
     position:absolute;
     right:0;bottom:100%;
-    margin-bottom:6px;
     background:var(--bg);color:var(--paper);
     padding:4px 8px;border-radius:2px;
     font-size:9px;white-space:nowrap;
@@ -255,7 +254,7 @@
     user-select:text;
     z-index:10;
   }
-  .gallery-floor .credit-name:hover .email-pop{opacity:1;}
+  .gallery-floor .credit-name:hover .email-pop{opacity:1;pointer-events:auto;}
   @media (max-width:640px){
     .gallery-floor .credit{display:none;}
   }
