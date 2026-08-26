@@ -107,12 +107,32 @@
   }
 
   /* ---------- FOOTER ---------- */
-  .site-footer{
-    text-align:center;
-    padding:30px 40px 50px;
+  .page-credit{
+    position:fixed;right:24px;bottom:20px;
     font-family:'JetBrains Mono',monospace;
     font-size:9px;letter-spacing:0.1em;
     color:var(--paper-dim);
+  }
+  .credit-name{
+    position:relative;
+    border-bottom:1px dotted currentColor;
+    cursor:default;
+  }
+  .credit-name::after{
+    content:'srbasescu@gmail.com';
+    position:absolute;
+    right:0;bottom:100%;
+    transform:translateY(-6px);
+    background:var(--paper);color:var(--bg);
+    padding:4px 8px;border-radius:2px;
+    font-size:9px;white-space:nowrap;
+    opacity:0;pointer-events:none;
+    transition:opacity .2s ease;
+    z-index:10;
+  }
+  .credit-name:hover::after{opacity:1;}
+  @media (max-width:640px){
+    .page-credit{position:static;text-align:center;margin-top:40px;}
   }
 </style>
 </head>
@@ -140,7 +160,7 @@
     </section>
   </main>
 
-  <footer class="site-footer">Website by Simon Basescu — srbasescu@gmail.com</footer>
+  <div class="page-credit">Website by <span class="credit-name">Simon Basescu</span></div>
 
 </body>
 </html>

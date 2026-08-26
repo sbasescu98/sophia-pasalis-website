@@ -206,6 +206,7 @@
     padding:580px 0 120px;
     overflow:hidden;
     opacity:0;
+    will-change:opacity;
     transition:opacity 1.4s ease;
   }
   .gallery.in-view{opacity:1;}
@@ -236,6 +237,24 @@
     font-size:9px;letter-spacing:0.1em;
     color:rgba(0,0,0,0.55);
   }
+  .gallery-floor .credit-name{
+    position:relative;
+    border-bottom:1px dotted currentColor;
+    cursor:default;
+  }
+  .gallery-floor .credit-name::after{
+    content:'srbasescu@gmail.com';
+    position:absolute;
+    right:0;bottom:100%;
+    transform:translateY(-6px);
+    background:var(--bg);color:var(--paper);
+    padding:4px 8px;border-radius:2px;
+    font-size:9px;white-space:nowrap;
+    opacity:0;pointer-events:none;
+    transition:opacity .2s ease;
+    z-index:10;
+  }
+  .gallery-floor .credit-name:hover::after{opacity:1;}
   @media (max-width:640px){
     .gallery-floor .credit{display:none;}
   }
@@ -274,6 +293,7 @@
     opacity:0;
     transform:translateY(28px);
     transition:opacity .8s ease, transform .3s cubic-bezier(.2,.8,.2,1), z-index 0s;
+    will-change:opacity, transform;
     cursor:pointer;
   }
   .painting.in-view{opacity:1;transform:translateY(0);}
@@ -402,7 +422,7 @@
     <div class="gallery-grid"></div>
     <div class="gallery-floor">
       <div class="copyright">© 2026 Sophia Pasalis. All rights reserved.</div>
-      <div class="credit">Website by Simon Basescu — srbasescu@gmail.com</div>
+      <div class="credit">Website by <span class="credit-name">Simon Basescu</span></div>
     </div>
 
     <div class="wall-scroller">
